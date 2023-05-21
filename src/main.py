@@ -4,11 +4,15 @@ import pygame
 import numpy as np
 
 from constants import colors, settings
+from models.scenario import Scenario
 
 pygame.init()
 
 # Setting up screen
 screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+
+# Scenario
+scenario = Scenario(n_columns= 25, n_rows= 25)
 
 # Actors
 player = pygame.Rect((300, 250, 25, 25))
@@ -29,6 +33,8 @@ while game_run:
 
     # Cleaning screen
     screen.fill(colors.BACKGROUND)
+
+    scenario.draw(screen)
     
     mouse_pos = pygame.mouse.get_pos()
     mouse_left_clicked = pygame.mouse.get_pressed()[0]
