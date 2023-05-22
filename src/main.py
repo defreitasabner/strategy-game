@@ -13,7 +13,7 @@ screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 clock = pygame.time.Clock()
 
 # Scenario
-scenario = Scenario(n_columns= 25, n_rows= 25)
+scenario = Scenario(size = 25)
 
 # Actors
 player = pygame.Rect((300, 250, 25, 25))
