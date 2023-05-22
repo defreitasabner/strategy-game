@@ -34,7 +34,8 @@ while game_run:
     # Cleaning screen
     screen.fill(colors.BACKGROUND)
 
-    scenario.draw(screen)
+    scenario.draw_grid_cells(screen)
+    scenario.draw_grid_lines(screen)
     
     mouse_pos = pygame.mouse.get_pos()
     mouse_left_clicked = pygame.mouse.get_pressed()[0]
