@@ -8,8 +8,9 @@ from models.scenario import Scenario
 
 pygame.init()
 
-# Setting up screen
+# Set up
 screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+clock = pygame.time.Clock()
 
 # Scenario
 scenario = Scenario(n_columns= 25, n_rows= 25)
@@ -28,8 +29,11 @@ partial_movement = None
 is_moving = False
 
 # Game Loop
-game_run = True
-while game_run:
+running = True
+while running:
+
+    # FPS control
+    clock.tick(settings.FPS)
 
     # Cleaning screen
     screen.fill(colors.BACKGROUND)
@@ -86,7 +90,7 @@ while game_run:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            game_run = False
+            running = False
 
     # Update screen
     pygame.display.flip()
