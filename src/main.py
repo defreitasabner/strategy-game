@@ -16,7 +16,8 @@ clock = pygame.time.Clock()
 scenario = Scenario(size = 25)
 
 # Actors
-player = pygame.Rect((300, 250, 25, 25))
+player = pygame.Rect((300, 250), (25, 25))
+player.center = scenario.get_center_position_from_matrix_cell((1,1))
 obstacles = []
 for _ in range(10):
     obstacle_rect = pygame.Rect((random.randint(0, 500), random.randint(0, 300), 25, 25))
@@ -36,14 +37,15 @@ while running:
     clock.tick(settings.FPS)
 
     # Cleaning screen
-    screen.fill(colors.BACKGROUND)
+    screen.fill(colors.BLACK)
 
-    scenario.draw_grid_cells(screen)
-    scenario.draw_grid_lines(screen)
+    scenario.draw(screen)
+    scenario.draw_grid(screen)
     
     mouse_pos = pygame.mouse.get_pos()
     mouse_left_clicked = pygame.mouse.get_pressed()[0]
     mouse_right_clicked = pygame.mouse.get_pressed()[2]
+
 
     # Handling events
     player_color = colors.GREEN
@@ -76,14 +78,16 @@ while running:
     
     if player_selected and mouse_right_clicked:
         target_pos = np.array(pygame.mouse.get_pos())
+        target_cell = scenario.get_matrix_cell_from_pixel_position(target_pos)
+        target_cell_center = np.array(scenario.get_center_position_from_matrix_cell(target_cell))
         np_player_pos = np.array(player.center)
-        movement = tuple(target_pos - np_player_pos)
+        movement = tuple(target_cell_center - np_player_pos)
         is_moving = True
 
     if is_moving:
         pygame.draw.circle(screen, colors.RED, target_pos, 10, 2)
         pygame.draw.line(screen, colors.RED, player.center, target_pos)
-        if player.center != tuple(target_pos):
+        if player.center != tuple(target_cell_center):
             player.move_ip(movement)
         else:
             is_moving = False
