@@ -1,22 +1,18 @@
-from typing import Tuple
-
 import pygame
+from pygame.surface import Surface
 import numpy as np
+from numpy import ndarray
 
 from constants import settings, colors
 from constants.types import MatrixPosition, PixelPosition
 
 class Scenario:
     def __init__(self, size: int) -> None:
-        self.matrix = self.generate_matrix(size)
-        self.cell_width = settings.SCREEN_WIDTH // size
-        self.cell_height = settings.SCREEN_HEIGHT // size
+        self.matrix: ndarray[int, int] = np.array([np.zeros(size, dtype= int) for _ in range(size)])
+        self.cell_width: int = settings.SCREEN_WIDTH // size
+        self.cell_height: int = settings.SCREEN_HEIGHT // size
 
-    def generate_matrix(self, size):
-        matrix = np.array( [np.zeros(size, dtype= int) for i in range(size)] )
-        return matrix
-
-    def draw_grid(self, screen):
+    def draw_grid(self, screen: Surface) -> None:
         temp_x = 0
         temp_y = 0
         for _ in range(self.matrix.shape[0]):
@@ -25,7 +21,7 @@ class Scenario:
             pygame.draw.line(screen, colors.WHITE, (0, temp_y), (settings.SCREEN_WIDTH, temp_y))
             pygame.draw.line(screen, colors.WHITE, (temp_x, 0), (temp_x, settings.SCREEN_HEIGHT))
 
-    def draw(self, screen):
+    def draw(self, screen: Surface) -> None:
         temp_x = 0
         temp_y = 0
         for i in range(self.matrix.shape[0]):
